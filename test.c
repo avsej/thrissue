@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#include "wrapper.h"
 #include "platform.h"
 
 void *
@@ -9,7 +10,7 @@ start_routine(void *arg)
 {
     (void)arg;
 
-    printf("in the start_routine\n");
+    printf("test: in the start_routine\n");
 
     return NULL;
 }
@@ -18,9 +19,13 @@ start_routine(void *arg)
 int
 main(void)
 {
+    printf("test: invoke wrapper function: %d\n", foobar("hello"));
+
     spawn_thread(start_routine);
-    printf("sleep for 1 seconds...\n");
+
+    printf("test: sleep for 1 seconds...\n");
     sleep(1);
 
+    printf("test: exit\n");
     return 0;
 }
