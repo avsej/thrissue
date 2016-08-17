@@ -2,8 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include <dlfcn.h>
-#include <pthread.h>
+#include "platform.h"
 
 void *
 start_routine(void *arg)
@@ -19,20 +18,9 @@ start_routine(void *arg)
 int
 main(void)
 {
-    pthread_attr_t attr;
-    pthread_t id;
-    int ret;
-
-    if (pthread_attr_init(&attr) != 0) {
-        return EXIT_FAILURE;
-    }
-    if (pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_DETACHED) != 0) {
-        return EXIT_FAILURE;
-    }
-
-    ret = pthread_create(&id, &attr, start_routine, NULL);
-    pthread_attr_destroy(&attr);
-    printf("pthread created: %d\n", ret);
+    spawn_thread(start_routine);
+    printf("sleep for 1 seconds...\n");
+    sleep(1);
 
     return 0;
 }
